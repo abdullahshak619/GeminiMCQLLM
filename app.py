@@ -26,6 +26,8 @@ app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'uploads/'
 app.config['RESULTS_FOLDER'] = 'results/'
 app.config['ALLOWED_EXTENSIONS'] = {'pdf', 'txt', 'docx'}
+host = os.getenv('FLASK_HOST', '0.0.0.0')  # Default to '0.0.0.0' if not specified
+port = int(os.getenv('FLASK_PORT', 5000))  # Default to 5000 if not specified
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in app.config['ALLOWED_EXTENSIONS']
@@ -137,4 +139,4 @@ if __name__ == "__main__":
         os.makedirs(app.config['UPLOAD_FOLDER'])
     if not os.path.exists(app.config['RESULTS_FOLDER']):
         os.makedirs(app.config['RESULTS_FOLDER'])
-    app.run(debug=True)
+    app.run(host=host, port=port, debug=True)
